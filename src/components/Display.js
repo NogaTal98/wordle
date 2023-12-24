@@ -3,8 +3,8 @@ import Board from "./Board";
 import Keyboard from "./Keyboard";
 
 function Display() {
-
-  const word = "HELLO";
+  var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
+  var possibleWordsFile = require(process.env.PUBLIC_URL + '../resources/PossibleWords.txt');
 
   const [boardState, setBordState] = useState([[["", ""],["", ""],["", ""],["", ""],["", ""]]
                                               ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
@@ -21,38 +21,45 @@ function Display() {
 
   const [currentBox, setCurrentBox] = useState([0,0]);
 
-  const [englishWords, setenglishWords] = useState([]);
+  const [englishWords, setEnglishWords] = useState([]);
+
+  const [dailyWord, setDailyWord] = useState("");
 
   useEffect(() => {
-    var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
     fetch(englishWordsFile)
       .then((r) => r.text())
       .then((text) => {
-        setenglishWords(text.split("\n"));
+        setEnglishWords(text.split("\n"));
       });
+      fetch(possibleWordsFile)
+        .then((r) => r.text())
+        .then((text) => {
+          let words = text.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
+          setDailyWord(words[Math.floor(Math.random() * words.length)].toUpperCase());
+        });
   }, []);
-
 
   const handleKeyPress = (key) => {
     if (gameState === "playing") {
       let newBoardState = boardState;
       let newKeyBoardState = keyBoardState;
-      let coppyWord = word;
+      let coppyWord = dailyWord;
       let guess = "";
       for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
         guess = guess + boardState[currentBox[0]][i][0];
       }
       if (key === "ENTER") {
+        console.log(dailyWord);
         if (!englishWords.includes(guess.toLowerCase())) {
           return;
         }
-        if (currentBox[0] !== 5 && currentBox[1]-1 === 4) {
+        if (currentBox[0] <= 5 && currentBox[1]-1 === 4) {
           setCurrentBox([currentBox[0] + 1, 0]);
           
-          for (let i = 0; i < word.length; i++) {
+          for (let i = 0; i < dailyWord.length; i++) {
             let char = boardState[currentBox[0]][i][0];
-            // corect letter and place
-            if (char === word[i]) {
+            // correct letter and place 
+            if (char === dailyWord[i]) {
               newBoardState[currentBox[0]][i][1] = "correct";
               newKeyBoardState[char] = "correct";
               coppyWord = coppyWord.replace(char, "");
@@ -72,10 +79,10 @@ function Display() {
             setKeyBordState(newKeyBoardState);
           }
 
-          if (word === guess) {
+          if (dailyWord === guess) {
             setGameState("win");
           }
-          else if (currentBox[0] === 5 && word !== guess) {
+          else if (currentBox[0] === 5 && dailyWord !== guess) {
             setGameState("lose");
           }
         }
