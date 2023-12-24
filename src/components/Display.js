@@ -54,11 +54,14 @@ function Display() {
             setKeyBordState(newKeyBoardState);
           }
 
-          for (let i = 0; i < newBoardState[currentBox[0]]; i++) {
+          for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
             if (newBoardState[currentBox[0]][i][1] != "correct") {
               rightGuess = false;
             }
           }
+
+          console.log(rightGuess);
+
           if (rightGuess) {
             setGameState("win");
           }
