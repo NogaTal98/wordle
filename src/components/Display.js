@@ -15,19 +15,27 @@ function Display() {
 
   const handleKeyPress = (key) => {
     let newBoardState = boardState;
+    if (key === "ENTER") {
+      if (currentBox[0] !== 5 && currentBox[1]-1 === 4) {
+        setCurrentBox([currentBox[0] + 1, 0]);
+      }
+      return;
+    }
+    if (key === "DELETE")  {
+      if (currentBox[1]-1 < 0) {
+        return;
+      }
+      setCurrentBox([currentBox[0],currentBox[1]-1])
+      newBoardState[currentBox[0]][currentBox[1]-1] = "";
+      setBordState(newBoardState);
+      return;
+    }
+    if (currentBox[1] === 5) {
+      return;
+    }
     newBoardState[currentBox[0]][currentBox[1]] = key;
     setBordState(newBoardState);
-
-    if (currentBox[0] === 5 && currentBox[1] === 4) {
-      setCurrentBox([0,0]);
-    }
-    else if (currentBox[1] === 4) {
-      setCurrentBox([currentBox[0] + 1, 0]);
-    }
-    else {
-      setCurrentBox([currentBox[0], currentBox[1] + 1]);
-    }
-    
+    setCurrentBox([currentBox[0], currentBox[1] + 1]);
   }
 
   return (
