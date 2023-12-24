@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import Keyboard from "./Keyboard";
 
@@ -21,13 +21,31 @@ function Display() {
 
   const [currentBox, setCurrentBox] = useState([0,0]);
 
+  const [englishWords, setenglishWords] = useState([]);
+
+  useEffect(() => {
+    var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
+    fetch(englishWordsFile)
+      .then((r) => r.text())
+      .then((text) => {
+        setenglishWords(text.split("\n"));
+      });
+  }, []);
+
+
   const handleKeyPress = (key) => {
     if (gameState === "playing") {
-      let rightGuess = true;
       let newBoardState = boardState;
       let newKeyBoardState = keyBoardState;
       let coppyWord = word;
+      let guess = "";
+      for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
+        guess = guess + boardState[currentBox[0]][i][0];
+      }
       if (key === "ENTER") {
+        if (!englishWords.includes(guess.toLowerCase())) {
+          return;
+        }
         if (currentBox[0] !== 5 && currentBox[1]-1 === 4) {
           setCurrentBox([currentBox[0] + 1, 0]);
           
@@ -54,21 +72,12 @@ function Display() {
             setKeyBordState(newKeyBoardState);
           }
 
-          for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
-            if (newBoardState[currentBox[0]][i][1] != "correct") {
-              rightGuess = false;
-            }
-          }
-
-          console.log(rightGuess);
-
-          if (rightGuess) {
+          if (word === guess) {
             setGameState("win");
           }
-          else if (currentBox[0] === 5 && !rightGuess) {
+          else if (currentBox[0] === 5 && word !== guess) {
             setGameState("lose");
           }
-
         }
         return;
       }
