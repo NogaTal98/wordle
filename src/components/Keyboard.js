@@ -1,41 +1,41 @@
 import {Key, LargeKey} from "./Key";
 
-function Keyboard() {
+function Keyboard({pressKey}) {
     return (
       <div className="keyboard">
         <div className="keyboard-row">
-            <Key value="Q" />
-            <Key value="W"/>
-            <Key value="E"/>
-            <Key value="R"/>
-            <Key value="T"/>
-            <Key value="Y"/>
-            <Key value="U"/>
-            <Key value="I"/>
-            <Key value="O"/>
-            <Key value="P"/>
+            <Key value="Q" pressKey={pressKey}/>
+            <Key value="W" pressKey={pressKey}/>
+            <Key value="E" pressKey={pressKey}/>
+            <Key value="R" pressKey={pressKey} />
+            <Key value="T" pressKey={pressKey}/>
+            <Key value="Y" pressKey={pressKey}/>
+            <Key value="U" pressKey={pressKey}/>
+            <Key value="I" pressKey={pressKey}/>
+            <Key value="O" pressKey={pressKey}/>
+            <Key value="P" pressKey={pressKey}/>
         </div>
         <div className="keyboard-row">
-            <Key value="A"/>
-            <Key value="S"/>
-            <Key value="D"/>
-            <Key value="F"/>
-            <Key value="G"/>
-            <Key value="H"/>
-            <Key value="J"/>
-            <Key value="K"/>
-            <Key value="L"/>
+            <Key value="A" pressKey={pressKey}/>
+            <Key value="S" pressKey={pressKey}/>
+            <Key value="D" pressKey={pressKey}/>
+            <Key value="F" pressKey={pressKey}/>
+            <Key value="G" pressKey={pressKey} />
+            <Key value="H" pressKey={pressKey}/>
+            <Key value="J" pressKey={pressKey}/>
+            <Key value="K" pressKey={pressKey}/>
+            <Key value="L" pressKey={pressKey}/>
         </div>
         <div className="keyboard-row">
-            <LargeKey value="ENTER"/>
-            <Key value="Z"/>
-            <Key value="X"/>
-            <Key value="C"/>
-            <Key value="V"/>
-            <Key value="B"/>
-            <Key value="N"/>
-            <Key value="M"/>
-            <LargeKey value="DELETE"/>
+            <LargeKey value="ENTER" pressKey={pressKey}/>
+            <Key value="Z" pressKey={pressKey}/>
+            <Key value="X" pressKey={pressKey}/>
+            <Key value="C" pressKey={pressKey}/>
+            <Key value="V" pressKey={pressKey}/>
+            <Key value="B" pressKey={pressKey}/>
+            <Key value="N" pressKey={pressKey}/>
+            <Key value="M" pressKey={pressKey}/>
+            <LargeKey value="DELETE" pressKey={pressKey}/>
         </div>
       </div>
     );

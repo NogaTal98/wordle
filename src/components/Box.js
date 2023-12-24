@@ -1,6 +1,6 @@
 function Box({value}) {
     return (
-      <div className="box">
+      <div className="box" >
         {value}
       </div>
     );

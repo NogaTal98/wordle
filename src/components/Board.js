@@ -1,53 +1,21 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from './Box';
 
-
-function Board() {
+function Board({state}) {
     return (
       <div className="board">
-        <div className="row">
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-        </div>
-        <div className="row">
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-        </div>
-        <div className="row">
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-        </div>
-        <div className="row">
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-        </div>
-        <div className="row">
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-        </div>
-        <div className="row">
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-            <Box />
-        </div>
+        {state.map((row, i) => {
+            return (
+                <div className="row" key={i}>
+                    {row.map((box, j) => {
+                        return (
+                            <Box value={box} key={j}/>
+                        );
+                    })}
+                </div>
+            );
+        })}
       </div>
     );
   }
