@@ -1,7 +1,7 @@
 function Box({value}) {
     return (
-      <div className="box" >
-        {value}
+      <div className={"box " + value[1]} >
+        {value[0]}
       </div>
     );
   }

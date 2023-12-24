@@ -63,18 +63,18 @@
   border: 2px solid #696969;
 }
 
-.box-corect, .box-missed, .box-worng {
+.box-correct, .box-missed, .box-wrong {
   background-color: green;
   color: white;
   border: transparent;
 }
 
 .box-missed {
-  border: yellow;
+  background-color: yellow;
 }
 
-.box-worng {
-  border: rgb(63, 63, 63);
+.box-wrong {
+  background-color: rgb(63, 63, 63);
 }
 
 .keyboard-row {
