@@ -1,26 +1,30 @@
 .App {
   text-align: center;
   height: 100vh;
+
+  -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
 }
 
 .header {
-  height: 60px;
+  height: 6vh;
   color: white;
   border-bottom: 1px solid black;
 }
 
 .display {
-  height: 850px;
-  border-bottom: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .board {
-  height: 430px;
-  width: 360px;
-  margin: 15px;
+  height: 360px;
+  width: 300px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,9 +32,9 @@
 }
 
 .keyboard {
-  height: 22%;
-  width: 60%;
+  height: 200px;
   display: flex;
+  margin: 5px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -56,7 +60,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: xx-large;
+  font-size: x-large;
 }
 
 .filled {
@@ -65,8 +69,7 @@
 
 .keyboard-row {
   height: 100%;
-  width: 96%;
-  padding: 0.4%;
+  padding: 0.8%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -75,7 +78,7 @@
 
 .key, .largekey {
   height: 100%;
-  width: 40px;
+  width: 47px;
   margin: 0.5%;
   border-radius: 6px;
   background-color: #D3D3D3;
@@ -88,12 +91,11 @@
 }
 
 .largekey {
-  width: 63px;
+  width: 70px;
   font-size: medium;
 }
 
 .key:hover, .largekey:hover {
-  background-color: #A9A9A9;
   cursor: pointer;
 }
 
@@ -105,6 +107,7 @@
   background-color: green;
   color: white;
   border: transparent;
+  border: 2px solid #69696900;
 }
 
 .missed {
@@ -113,4 +116,21 @@
 
 .wrong {
   background-color: rgb(63, 63, 63);
+}
+
+@media screen and (max-width: 600px) {
+  .keyboard {
+    height: 150px;
+  }
+
+  .key {
+    width: 30px;
+    font-size: small;
+  }
+
+  .largekey {
+    width: 50px;
+    font-size: small;
+  }
+  
 }
