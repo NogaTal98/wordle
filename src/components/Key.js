@@ -1,6 +1,6 @@
-function Key({value, pressKey}) {
+function Key({value, state, pressKey}) {
     return (
-      <div className="key" onClick={() => pressKey(value)}>
+      <div className={"key " + state} onClick={() => pressKey(value)}>
         {value}
       </div>
     );

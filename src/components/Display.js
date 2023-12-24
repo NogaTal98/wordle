@@ -11,12 +11,17 @@ function Display() {
                                               ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
                                               ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
                                               ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]]);                                               
+                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]]); 
+                                              
+  const [keyBoardState, setKeyBordState] = useState({"Q":"","W":"","E":"","R":"","T":"","Y":"","U":"","I":"","O":"","P":"",
+                                                      "A":"","S":"","D":"","F":"","G":"","H":"","J":"","K":"","L":"",
+                                                      "Z":"","X":"","C":"","V":"","B":"","N":"","M":""})
 
   const [currentBox, setCurrentBox] = useState([0,0]);
 
   const handleKeyPress = (key) => {
     let newBoardState = boardState;
+    let newKeyBoardState = keyBoardState;
     let coppyWord = word;
     if (key === "ENTER") {
       if (currentBox[0] !== 5 && currentBox[1]-1 === 4) {
@@ -26,14 +31,21 @@ function Display() {
           let char = boardState[currentBox[0]][i][0];
           // corect letter and place
           if (char === word[i]) {
-            newBoardState[currentBox[0]][i][1] = "box-correct";
+            newBoardState[currentBox[0]][i][1] = "correct";
+            newKeyBoardState[char] = "correct";
             coppyWord = coppyWord.replace(char, "");
           }
           else if (coppyWord.indexOf(char) >= 0) {
-            newBoardState[currentBox[0]][i][1] = "box-missed";
+            newBoardState[currentBox[0]][i][1] = "missed";
+            if (newKeyBoardState[char] === "") {
+              newKeyBoardState[char] = "missed";
+            }
           }
           else {
-            newBoardState[currentBox[0]][i][1] = "box-wrong";
+            newBoardState[currentBox[0]][i][1] = "wrong";
+            if (newKeyBoardState[char] === "") {
+              newKeyBoardState[char] = "wrong";
+            }
           }
         }
       }
@@ -51,7 +63,7 @@ function Display() {
     if (currentBox[1] === 5) {
       return;
     }
-    newBoardState[currentBox[0]][currentBox[1]] = [key, "box-filled"];
+    newBoardState[currentBox[0]][currentBox[1]] = [key, "filled"];
     setBordState(newBoardState);
     setCurrentBox([currentBox[0], currentBox[1] + 1]);
   }
@@ -59,7 +71,7 @@ function Display() {
   return (
     <div className="display">
       <Board state={boardState}/>
-      <Keyboard pressKey={handleKeyPress}/>
+      <Keyboard states={keyBoardState} pressKey={handleKeyPress}/>
     </div>
   );
 }

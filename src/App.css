@@ -59,22 +59,8 @@
   font-size: xx-large;
 }
 
-.box-filled {
+.filled {
   border: 2px solid #696969;
-}
-
-.box-correct, .box-missed, .box-wrong {
-  background-color: green;
-  color: white;
-  border: transparent;
-}
-
-.box-missed {
-  background-color: yellow;
-}
-
-.box-wrong {
-  background-color: rgb(63, 63, 63);
 }
 
 .keyboard-row {
@@ -113,4 +99,18 @@
 
 .key:active, .largekey:active {
   background-color: #696969;
+}
+
+.correct, .missed, .wrong {
+  background-color: green;
+  color: white;
+  border: transparent;
+}
+
+.missed {
+  background-color: yellow;
+}
+
+.wrong {
+  background-color: rgb(63, 63, 63);
 }
