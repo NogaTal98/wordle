@@ -25,6 +25,9 @@ function Display() {
 
   const [dailyWord, setDailyWord] = useState("");
 
+  const date = new Date();
+  const seed = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
+
   useEffect(() => {
     fetch(englishWordsFile)
       .then((r) => r.text())
@@ -35,7 +38,10 @@ function Display() {
         .then((r) => r.text())
         .then((text) => {
           let words = text.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
-          setDailyWord(words[Math.floor(Math.random() * words.length)].toUpperCase());
+          const seedrandom = require('seedrandom');
+          const generator = seedrandom(seed);
+          const randomNumber = generator();
+          setDailyWord(words[Math.floor(randomNumber * words.length)].toUpperCase());
         });
   }, []);
 
