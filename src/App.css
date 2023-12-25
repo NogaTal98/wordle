@@ -140,18 +140,18 @@
 }
 
 .correct, .missed, .wrong {
-  background-color: green;
+  background-color: #6aaa64;
   color: white;
   border: transparent;
   border: 2px solid #69696900;
 }
 
 .missed {
-  background-color: yellow;
+  background-color: #c9b458;
 }
 
 .wrong {
-  background-color: rgb(63, 63, 63);
+  background-color: #787c7e;
 }
 
 .screen {
@@ -192,13 +192,13 @@
 }
 
 .headline {
-  font-size: 2.5vw;
+  font-size: 6vh;
   font-family: 'Betany-bold';
   width: 100%;
 }
 
 .subHeadline {
-  font-size: 1.5vw;
+  font-size: 3.5vh;
   font-family: 'Betany-Medium';
 }
 
@@ -233,6 +233,7 @@ ul {
   justify-content: center;
   padding-top: 4%;
   font-weight: bold;
+  font-size: 1.5vw;
 }
 
 .form-input {
@@ -245,7 +246,7 @@ ul {
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 710px) {
   .keyboard {
     height: 150px;
   }
@@ -258,6 +259,10 @@ ul {
   .largekey {
     width: 50px;
     font-size: small;
+  }
+
+  .window {
+    width: 90vw;
   }
 }
 
