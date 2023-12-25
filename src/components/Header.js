@@ -27,9 +27,12 @@ function Header() {
 
 
         <Window active={active} handleClose={handleQuestion}>
-        <div>text1</div>
-        <div>text2</div>
-        <div>text3</div>
+            <div className="headline">How To Play</div>
+            <div className="subHeadline">Guess the Wordle in 6 tries.</div>
+            <ul>
+                <li>Each guess must be a valid 5-letter word.</li>
+                <li>The color of the tiles will change to show how close your guess was to the word.</li>
+            </ul>
         </Window>
 
         </div>
