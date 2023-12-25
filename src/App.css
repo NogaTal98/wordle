@@ -35,6 +35,10 @@
   height: 100%;
 }
 
+.userText {
+  padding-right: 10px;
+}
+
 .question, .userIcon {
   height: 60%;
   margin-right: 7px;
@@ -123,7 +127,7 @@
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.key:hover, .largekey:hover, .screen:hover, .question:hover, .close, .userIcon {
+.key:hover, .largekey:hover, .screen:hover, .question:hover, .close:hover, .userIcon:hover, .userText:hover{
   cursor: pointer;
 }
 

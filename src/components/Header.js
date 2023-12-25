@@ -14,7 +14,7 @@ function Header() {
     const handleQuestion = () => {setActive(!active);}
 
     const [signedUWindow, setSignedUWindow] = useState(false);
-    const handleUser = () => {setSignedUWindow(!signedUWindow)}
+    const toggleUserWindow = () => {setSignedUWindow(!signedUWindow)}
 
     const [userNameSignUp, setUserNameSignUp] = useState("");
     const handleUserNameSignUp = (event) => {setUserNameSignUp(event.target.value);}
@@ -35,6 +35,7 @@ function Header() {
                     setUserNameSignUp("");
                     setEmailSignUp("");
                     setPasswordSignUp("");
+                    toggleUserWindow();
                   }).catch((error) => {
                     const errorMessage = error.message;
                     alert(errorMessage);
@@ -58,6 +59,7 @@ function Header() {
             .then((userCredential) => {
                 setEmailSignIn("");
                 setPasswordSignIn("");
+                toggleUserWindow();
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -76,7 +78,6 @@ function Header() {
         });
     }, []);
 
-
     return (
         <div className="header">
             <div className="header-section">
@@ -86,7 +87,8 @@ function Header() {
             </div>
             <div className="header-section header-right" >
                 <img src={question} alt="Question" className="question" onClick={handleQuestion}/>
-                <img src={userIcon} alt="User" className="userIcon" onClick={handleUser}/>
+                <img src={userIcon} alt="User" className="userIcon" onClick={toggleUserWindow}/>
+                <div className="userText" onClick={toggleUserWindow}>{user ? user.displayName : "Sign In"}</div>
             </div>
 
             <Window active={active} handleClose={handleQuestion}>
@@ -98,7 +100,7 @@ function Header() {
                 </ul>
             </Window>
 
-            <Window active={signedUWindow} handleClose={handleUser}>
+            <Window active={signedUWindow} handleClose={toggleUserWindow}>
                 {user ? <div>
                             <div>Welcome {user.displayName} </div> 
                             <button onClick={() => auth.signOut()}>Sign Out</button>
