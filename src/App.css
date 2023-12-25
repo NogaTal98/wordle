@@ -208,7 +208,8 @@ ul {
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
+  justify-content: center;
 }
 
 .signUp, .signIn {
@@ -218,6 +219,16 @@ ul {
   align-items: center;
   justify-content: center;
   padding: 2%;
+}
+
+.or {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4%;
+  font-weight: bold;
 }
 
 .form-input {

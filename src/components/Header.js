@@ -4,7 +4,7 @@ import question from "../resources/question-mark.png";
 import userIcon from "../resources/user.png";
 import Window from "./Window";
 import {auth} from "../firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 function Header() {
 
@@ -16,6 +16,9 @@ function Header() {
     const [signedUWindow, setSignedUWindow] = useState(false);
     const handleUser = () => {setSignedUWindow(!signedUWindow)}
 
+    const [userNameSignUp, setUserNameSignUp] = useState("");
+    const handleUserNameSignUp = (event) => {setUserNameSignUp(event.target.value);}
+
     const [emailSignUp, setEmailSignUp] = useState("");
     const handleEmailSignUp = (event) => {setEmailSignUp(event.target.value);}
 
@@ -26,7 +29,16 @@ function Header() {
         createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
             .then((userCredential) => {
                 // Signed up 
-                const user = userCredential.user;
+                updateProfile(auth.currentUser, {
+                    displayName: userNameSignUp
+                }).then(() => {
+                    setUserNameSignUp("");
+                    setEmailSignUp("");
+                    setPasswordSignUp("");
+                  }).catch((error) => {
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                  });
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -44,13 +56,13 @@ function Header() {
     const handleSubmitSignIn = () => {
         signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn)
             .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                // ...
+                setEmailSignIn("");
+                setPasswordSignIn("");
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                alert(errorMessage);
             });
     }
 
@@ -88,25 +100,28 @@ function Header() {
 
             <Window active={signedUWindow} handleClose={handleUser}>
                 {user ? <div>
-                            <div>Welcome {user.email} </div> 
+                            <div>Welcome {user.displayName} </div> 
                             <button onClick={() => auth.signOut()}>Sign Out</button>
                         </div>: 
                         <div className="form">
                             <div className="signUp">
                                 <div className="headline">Sign Up</div>
+                                <label for="userName"><b>User Name</b></label>
+                                <input type="text" placeholder="Enter User Name" name="userName" required onChange={handleUserNameSignUp} value={userNameSignUp} className="form-input"/>
                                 <label for="email"><b>Email</b></label>
                                 <input type="text" placeholder="Enter Email" name="email" required onChange={handleEmailSignUp} value={emailSignUp} className="form-input"/> 
                                 <label for="psw"><b>Password</b></label>
                                 <input type="password" placeholder="Enter Password" name="psw" required onChange={handlePasswordSignUp} value={passwordSignUp} className="form-input"/> 
                                 <button type="submit" class="signupbtn" onClick={handleSubmitSignUp}>Sign Up</button> 
                             </div> 
+                            <div className="or">- or -</div>
                             <div className="signIn">
                                 <div className="headline">Sign In</div>
                                 <label for="email"><b>Email</b></label>
                                 <input type="text" placeholder="Enter Email" name="email" required onChange={handleEmailSignIn} value={emailSignIn} className="form-input"/> 
                                 <label for="psw"><b>Password</b></label>
                                 <input type="password" placeholder="Enter Password" name="psw" required onChange={handlePasswordSignIn} value={passwordSignIn} className="form-input"/> 
-                                <button type="submit" class="signupbtn" onClick={handleSubmitSignIn}>Sign Up</button> 
+                                <button type="submit" class="signupbtn" onClick={handleSubmitSignIn}>Sign In</button> 
                             </div>  
                         </div>
                 }
