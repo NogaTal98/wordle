@@ -40,10 +40,6 @@
   margin-right: 7px;
 }
 
-.question:hover {
-  cursor: pointer;
-}
-
 .display {
   display: flex;
   flex-direction: column;
@@ -124,8 +120,12 @@
   font-size: medium;
 }
 
-.key:hover, .largekey:hover {
+.key:hover, .largekey:hover, .screen:hover, .question:hover{
   cursor: pointer;
+}
+
+.window:hover {
+  cursor: default;
 }
 
 .key:active, .largekey:active {
@@ -145,6 +145,36 @@
 
 .wrong {
   background-color: rgb(63, 63, 63);
+}
+
+.screen {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #02020218;
+}
+
+.window {
+  position: fixed;
+  top: 10vh;
+  left: auto;
+  height: 90vh;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 1;
+  border-radius: 6px;
+  overflow: auto;
 }
 
 @media screen and (max-width: 600px) {
