@@ -120,7 +120,7 @@
   font-size: medium;
 }
 
-.key:hover, .largekey:hover, .screen:hover, .question:hover{
+.key:hover, .largekey:hover, .screen:hover, .question:hover, .close {
   cursor: pointer;
 }
 
@@ -168,13 +168,17 @@
   width: 40vw;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 1;
   border-radius: 6px;
   overflow: auto;
+}
+
+.close {
+  width: 3%;
+  margin: 20px;
+  margin-left: auto;
 }
 
 @media screen and (max-width: 600px) {

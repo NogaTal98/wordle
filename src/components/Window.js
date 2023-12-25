@@ -1,5 +1,6 @@
 import React, {Children, useRef} from 'react';
 import useOnClickOutside from './clickOutside-hook';
+import close from "../resources/close.png";
 
 function Window({children, active, handleClose}) {
   const windowRef = useRef();
@@ -9,10 +10,11 @@ function Window({children, active, handleClose}) {
     return (
       <div className="screen">
         <div className="window" ref={windowRef}>
+          <img src={close} alt="Close" className="close" onClick={handleClose}/>
           {Children.map(children, child => {
             return (
               <div>
-              {child}
+                {child}
               </div>
             );
           })}
