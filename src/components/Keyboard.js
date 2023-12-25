@@ -1,42 +1,33 @@
 import {Key, LargeKey} from "./Key";
 
-function Keyboard() {
+function Keyboard({states, pressKey}) {
+    const keyBordValues = [["Q","W","E","R","T","Y","U","I","O","P"],
+                            ["A","S","D","F","G","H","J","K","L"],
+                            ["ENTER", "Z","X","C","V","B","N","M", "DELETE"]];
     return (
       <div className="keyboard">
-        <div className="keyboard-row">
-            <Key value="Q" />
-            <Key value="W"/>
-            <Key value="E"/>
-            <Key value="R"/>
-            <Key value="T"/>
-            <Key value="Y"/>
-            <Key value="U"/>
-            <Key value="I"/>
-            <Key value="O"/>
-            <Key value="P"/>
-        </div>
-        <div className="keyboard-row">
-            <Key value="A"/>
-            <Key value="S"/>
-            <Key value="D"/>
-            <Key value="F"/>
-            <Key value="G"/>
-            <Key value="H"/>
-            <Key value="J"/>
-            <Key value="K"/>
-            <Key value="L"/>
-        </div>
-        <div className="keyboard-row">
-            <LargeKey value="ENTER"/>
-            <Key value="Z"/>
-            <Key value="X"/>
-            <Key value="C"/>
-            <Key value="V"/>
-            <Key value="B"/>
-            <Key value="N"/>
-            <Key value="M"/>
-            <LargeKey value="DELETE"/>
-        </div>
+        {keyBordValues.map((row, index) => {
+            return (
+                <div className="keyboard-row" key={index}>
+                    {row.map((key, index) => {
+                        if (key === "ENTER") {
+                            return (
+                                <LargeKey value={key} pressKey={pressKey} key={index}/>
+                            );
+                        }
+                        else if (key === "DELETE") {
+                            return (
+                                <LargeKey value={key} pressKey={pressKey} key={index}/>
+                            );
+                        }
+                        return (
+                            <Key value={key} state={states[key]} pressKey={pressKey} key={index}/>
+                        );
+                    })}
+                </div>
+            );
+        }
+        )}
       </div>
     );
   }

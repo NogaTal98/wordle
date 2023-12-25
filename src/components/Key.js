@@ -1,14 +1,14 @@
-function Key({value}) {
+function Key({value, state, pressKey}) {
     return (
-      <div className="key">
+      <div className={"key " + state} onClick={() => pressKey(value)}>
         {value}
       </div>
     );
   }
 
-  function LargeKey({value}) {
+  function LargeKey({value, pressKey}) {
     return (
-      <div className="largekey">
+      <div className="largekey" onClick={() => pressKey(value)}>
         {value}
       </div>
     );

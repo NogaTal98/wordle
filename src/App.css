@@ -1,26 +1,55 @@
 .App {
   text-align: center;
   height: 100vh;
+
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .header {
-  height: 60px;
-  color: white;
-  border-bottom: 1px solid black;
+  height: 7vh;
+  border-bottom: 1px solid #D3D3D3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-section {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.logo {
+  height: 100%;
+}
+
+.question {
+  height: 60%;
+  margin-right: 7px;
 }
 
 .display {
-  height: 850px;
-  border-bottom: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .board {
-  height: 430px;
-  width: 360px;
-  margin: 15px;
+  height: 360px;
+  width: 300px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,9 +57,9 @@
 }
 
 .keyboard {
-  height: 22%;
-  width: 60%;
+  height: 200px;
   display: flex;
+  margin: 5px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -56,31 +85,17 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: xx-large;
+  font-size: x-large;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.box-filled {
+.filled {
   border: 2px solid #696969;
-}
-
-.box-corect, .box-missed, .box-worng {
-  background-color: green;
-  color: white;
-  border: transparent;
-}
-
-.box-missed {
-  border: yellow;
-}
-
-.box-worng {
-  border: rgb(63, 63, 63);
 }
 
 .keyboard-row {
   height: 100%;
-  width: 96%;
-  padding: 0.4%;
+  padding: 0.8%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -89,7 +104,7 @@
 
 .key, .largekey {
   height: 100%;
-  width: 40px;
+  width: 47px;
   margin: 0.5%;
   border-radius: 6px;
   background-color: #D3D3D3;
@@ -99,18 +114,117 @@
   justify-content: center;
   font-weight: bold;
   font-size: large;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .largekey {
-  width: 63px;
+  width: 70px;
   font-size: medium;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.key:hover, .largekey:hover {
-  background-color: #A9A9A9;
+.key:hover, .largekey:hover, .screen:hover, .question:hover, .close {
   cursor: pointer;
+}
+
+.window:hover {
+  cursor: default;
 }
 
 .key:active, .largekey:active {
   background-color: #696969;
+}
+
+.correct, .missed, .wrong {
+  background-color: green;
+  color: white;
+  border: transparent;
+  border: 2px solid #69696900;
+}
+
+.missed {
+  background-color: yellow;
+}
+
+.wrong {
+  background-color: rgb(63, 63, 63);
+}
+
+.screen {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #02020218;
+}
+
+.window {
+  position: fixed;
+  top: 10vh;
+  left: auto;
+  height: 90vh;
+  width: 35vw;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 1;
+  border-radius: 6px;
+  overflow: auto;
+  padding: 2.5%
+}
+
+.close {
+  width: 3%;
+  margin: 10px;
+  margin-left: auto;
+}
+
+.headline {
+  font-size: 2.5vw;
+  font-family: 'Betany-bold';
+  width: 100%;
+}
+
+.subHeadline {
+  font-size: 1.5vw;
+  font-family: 'Betany-Medium';
+}
+
+ul {
+  list-style-type: disc;
+  width: 90%;
+  text-align: left;
+}
+
+@media screen and (max-width: 600px) {
+  .keyboard {
+    height: 150px;
+  }
+
+  .key {
+    width: 30px;
+    font-size: small;
+  }
+
+  .largekey {
+    width: 50px;
+    font-size: small;
+  }
+}
+
+@font-face {
+  font-family: 'Betany-bold';
+  src: url('./resources/Betany-Bold.otf');
+}
+@font-face {
+  font-family: 'Betany-Medium';
+  src: url('./resources/Betany-Medium.otf');
 }
