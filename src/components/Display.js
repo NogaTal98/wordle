@@ -26,6 +26,8 @@ function Display() {
 
   const [dailyWord, setDailyWord] = useState("");
 
+  const [windowState, setWindowState] = useState(false);
+
   const date = new Date();
   const seed = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
 
@@ -88,9 +90,11 @@ function Display() {
 
           if (dailyWord === guess) {
             setGameState("win");
+            setWindowState(true);
           }
           else if (currentBox[0] === 5 && dailyWord !== guess) {
             setGameState("lose");
+            setWindowState(true);
           }
         }
         return;
@@ -113,10 +117,18 @@ function Display() {
     }
   }
 
+  const handleClose = () => {
+    setWindowState(false);
+  }
+
   return (
     <div className="display">
       <Board state={boardState}/>
       <Keyboard states={keyBoardState} pressKey={handleKeyPress}/>
+      <Window active={windowState} handleClose={handleClose}>
+        <div className="headline">{gameState === "win" ? "You Win" : "You Lose"}</div>
+        <div className="subHeadline">The word was {dailyWord}.</div>
+      </Window>
     </div>
   );
 }
