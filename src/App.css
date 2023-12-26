@@ -35,7 +35,11 @@
   height: 100%;
 }
 
-.question {
+.userText {
+  padding-right: 10px;
+}
+
+.question, .userIcon {
   height: 60%;
   margin-right: 7px;
 }
@@ -123,7 +127,7 @@
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.key:hover, .largekey:hover, .screen:hover, .question:hover, .close {
+.key:hover, .largekey:hover, .screen:hover, .question:hover, .close:hover, .userIcon:hover, .userText:hover{
   cursor: pointer;
 }
 
@@ -136,18 +140,18 @@
 }
 
 .correct, .missed, .wrong {
-  background-color: green;
+  background-color: #6aaa64;
   color: white;
   border: transparent;
   border: 2px solid #69696900;
 }
 
 .missed {
-  background-color: yellow;
+  background-color: #c9b458;
 }
 
 .wrong {
-  background-color: rgb(63, 63, 63);
+  background-color: #787c7e;
 }
 
 .screen {
@@ -171,7 +175,7 @@
   width: 35vw;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   justify-content: start;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -188,13 +192,13 @@
 }
 
 .headline {
-  font-size: 2.5vw;
+  font-size: 6vh;
   font-family: 'Betany-bold';
   width: 100%;
 }
 
 .subHeadline {
-  font-size: 1.5vw;
+  font-size: 3.5vh;
   font-family: 'Betany-Medium';
 }
 
@@ -204,7 +208,45 @@ ul {
   text-align: left;
 }
 
-@media screen and (max-width: 600px) {
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+}
+
+.signUp, .signIn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+}
+
+.or {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4%;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+
+.form-input {
+  width: 100%;
+  margin: 2%;
+  padding: 2%;
+  border: 1px solid #D3D3D3;
+  border-radius: 6px;
+  font-size: large;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+@media screen and (max-width: 710px) {
   .keyboard {
     height: 150px;
   }
@@ -217,6 +259,10 @@ ul {
   .largekey {
     width: 50px;
     font-size: small;
+  }
+
+  .window {
+    width: 90vw;
   }
 }
 

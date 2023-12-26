@@ -2,17 +2,13 @@ import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import Keyboard from "./Keyboard";
 import Window from "./Window";
+import { getBoard, setBoard } from "../services/database";
 
 function Display() {
   var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
   var possibleWordsFile = require(process.env.PUBLIC_URL + '../resources/PossibleWords.txt');
 
-  const [boardState, setBordState] = useState([[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                                              ,[["", ""],["", ""],["", ""],["", ""],["", ""]]]); 
+  const [boardState, setBordState] = useState([]); 
                                               
   const [keyBoardState, setKeyBordState] = useState({"Q":"","W":"","E":"","R":"","T":"","Y":"","U":"","I":"","O":"","P":"",
                                                       "A":"","S":"","D":"","F":"","G":"","H":"","J":"","K":"","L":"",
@@ -32,6 +28,9 @@ function Display() {
   const seed = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
 
   useEffect(() => {
+    getBoard().then((board) => {
+      setBordState(board);
+    });
     fetch(englishWordsFile)
       .then((r) => r.text())
       .then((text) => {
@@ -57,8 +56,8 @@ function Display() {
       for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
         guess = guess + boardState[currentBox[0]][i][0];
       }
+      console.log(dailyWord);
       if (key === "ENTER") {
-        console.log(dailyWord);
         if (!englishWords.includes(guess.toLowerCase())) {
           return;
         }
@@ -97,8 +96,10 @@ function Display() {
             setWindowState(true);
           }
         }
+        setBoard(newBoardState);
         return;
       }
+
       if (key === "DELETE")  {
         if (currentBox[1]-1 < 0) {
           return;
@@ -108,9 +109,11 @@ function Display() {
         setBordState(newBoardState);
         return;
       }
+
       if (currentBox[1] === 5) {
         return;
       }
+
       newBoardState[currentBox[0]][currentBox[1]] = [key, "filled"];
       setBordState(newBoardState);
       setCurrentBox([currentBox[0], currentBox[1] + 1]);
