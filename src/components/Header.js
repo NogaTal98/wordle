@@ -5,6 +5,8 @@ import userIcon from "../resources/user.png";
 import Window from "./Window";
 import {auth} from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { addData } from "../services/database";
+
 
 function Header() {
 
@@ -25,6 +27,12 @@ function Header() {
     const [passwordSignUp, setPasswordSignUp] = useState("");
     const handlePasswordSignUp = (event) => {setPasswordSignUp(event.target.value);}
 
+    const [emailSignIn, setEmailSignIn] = useState("");
+    const handleEmailSignIn = (event) => {setEmailSignIn(event.target.value);}
+
+    const [passwordSignIn, setPasswordSignIn] = useState("");
+    const handlePasswordSignIn = (event) => {setPasswordSignIn(event.target.value);}
+
     const handleSubmitSignUp = () => {
         createUserWithEmailAndPassword(auth, emailSignUp, passwordSignUp)
             .then((userCredential) => {
@@ -32,10 +40,15 @@ function Header() {
                 updateProfile(auth.currentUser, {
                     displayName: userNameSignUp
                 }).then(() => {
-                    setUserNameSignUp("");
-                    setEmailSignUp("");
-                    setPasswordSignUp("");
-                    toggleUserWindow();
+                    addData().then(() => {
+                        setUserNameSignUp("");
+                        setEmailSignUp("");
+                        setPasswordSignUp("");
+                        toggleUserWindow();
+                    }).catch((error) => {
+                        const errorMessage = error.message;
+                        alert(errorMessage);
+                    });
                   }).catch((error) => {
                     const errorMessage = error.message;
                     alert(errorMessage);
@@ -47,12 +60,6 @@ function Header() {
                 alert(errorMessage);
             });
     }
-
-    const [emailSignIn, setEmailSignIn] = useState("");
-    const handleEmailSignIn = (event) => {setEmailSignIn(event.target.value);}
-
-    const [passwordSignIn, setPasswordSignIn] = useState("");
-    const handlePasswordSignIn = (event) => {setPasswordSignIn(event.target.value);}
 
     const handleSubmitSignIn = () => {
         signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn)
