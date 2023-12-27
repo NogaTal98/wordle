@@ -82,6 +82,7 @@ function Display() {
         guess = guess + boardState[currentBox[0]][i][0];
       }
       console.log("daily word is "+dailyWord);
+      
       if (key === "ENTER") {
         if (!englishWords.includes(guess.toLowerCase())) {
           return;
