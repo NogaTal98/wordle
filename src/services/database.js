@@ -22,11 +22,11 @@ export const addData = async (history={}) => {
       }
 }
 
-export const setBoard = async (board) => {
+export const updateDataBaseBoard = async (board) => {
     try {
         if (!auth.currentUser) return;
         const date = new Date();
-        const todaysDate = date.getDate().toString()+"."+date.getMonth().toString()+"."+date.getFullYear().toString();
+        const todaysDate = date.getDate().toString()+"."+(date.getMonth()+1).toString()+"."+date.getFullYear().toString();
         const docRef = doc(db, "users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -34,10 +34,10 @@ export const setBoard = async (board) => {
             if (!data.history) {
                 data.history = {};
             }
-            data.history[todaysDate] = BoardToSring(board);
+            data.history[todaysDate] = BoardToString(board);
             await setDoc(docRef, data);
         } else {
-            await addData({[todaysDate]: BoardToSring(board)});
+            await addData({[todaysDate]: BoardToString(board)});
         }
     } catch (e) {
         console.error("Error adding document: ", e);
@@ -73,15 +73,18 @@ export const getBoard = async (dailyWord) => {
     }
 }
 
-const BoardToSring = (board) => {
+const BoardToString = (board) => {
     let stringArray = [];
     for (let i = 0; i < board.length; i++) {
         let word = "";
-        for (let j = 0; j < board[i].length; i++) {
+        for (let j = 0; j < board[0].length; j++) {
             word = word + board[i][j][0];
         }
-        stringArray.push(word);
+        if (word !== ""){
+            stringArray.push(word);
+        }
     }
+    return stringArray;
 }
 
 const StringToBoard = (stringArray, dailyWord) => {

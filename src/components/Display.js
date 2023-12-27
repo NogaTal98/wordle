@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import Keyboard from "./Keyboard";
 import Window from "./Window";
-import { getBoard, setBoard } from "../services/database";
+import { getBoard, updateDataBaseBoard } from "../services/database";
 import { getDailyWord, paintRow } from "../services/gameUtility";
 import { auth } from "../firebase";
 
@@ -116,7 +116,8 @@ function Display() {
             setWindowState(true);
           }
         }
-        setBoard(newBoardState);
+        console.log("new board " + newBoardState);
+        updateDataBaseBoard(newBoardState);
         return;
       }
 
