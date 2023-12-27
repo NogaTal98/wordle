@@ -8,7 +8,7 @@ function Board({state}) {
                 <div className="row" key={i}>
                     {row.map((box, j) => {
                         return (
-                            <Box value={box} key={j}/>
+                            <Box value={box} key={j} />
                         );
                     })}
                 </div>

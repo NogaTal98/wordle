@@ -1,5 +1,5 @@
 export const paintRow = (row, dailyWord) => {
-    let newRow = row;
+    let newRow = row.concat();
     let coppyWord = dailyWord;
     for (let i = 0; i < dailyWord.length; i++) {
         let char = newRow[i][0];

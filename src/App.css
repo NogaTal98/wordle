@@ -109,7 +109,7 @@
   transform-style: preserve-3d;
 }
 
-.flip-box:hover .flip-box-inner {
+.flip-control .flip-box-inner {
   transform: rotateX(180deg);
 }
 

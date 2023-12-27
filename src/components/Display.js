@@ -29,6 +29,12 @@ function Display() {
   const date = new Date();
   const seed = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
 
+  const [, updateState] = useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+  }
+
   const updateBoard = (word) => {
     getBoard(word).then((board) => {
       setBordState(board.concat());
@@ -74,7 +80,7 @@ function Display() {
     
   }, []);
 
-  const handleKeyPress = (key) => {
+  const handleKeyPress = async (key) => {
     if (gameState === "playing") {
       let newBoardState = boardState;
       let guess = "";
@@ -90,8 +96,16 @@ function Display() {
 
         if (currentBox[0] <= 5 && currentBox[1]-1 === 4) {
           setCurrentBox([currentBox[0] + 1, 0]);
-          newBoardState[currentBox[0]] = paintRow(boardState[currentBox[0]], dailyWord);
-          setBordState(newBoardState);
+          let row = paintRow(boardState[currentBox[0]], dailyWord);
+
+          // animation
+          for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
+            newBoardState[currentBox[0]][i] = row[i];
+            newBoardState[currentBox[0]][i][2] = true;
+            setBordState(newBoardState)
+            forceUpdate();
+            await timeout(300);
+          }
           setKeyBordState(paintKeyBoard(newBoardState));
 
           if (dailyWord === guess) {

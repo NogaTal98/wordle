@@ -1,6 +1,6 @@
 function Box({value}) {
     return (
-        <div className="flip-box" >
+        <div className={"flip-box " + (value[2] && "flip-control")}>
             <div className="flip-box-inner">
                 <div className={"box " + (value[0] !== "" ? "filled" : "") + " flip-box-front"}>
                     {value[0]}
