@@ -82,7 +82,6 @@
 .box {
   height: 100%;
   width: 100%;
-  margin: 1%;
   border: 2px solid #D3D3D3;
   text-align: center;
   display: flex;
@@ -91,6 +90,38 @@
   font-weight: bold;
   font-size: x-large;
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.flip-box {
+  height: 100%;
+  width: 100%;
+  margin: 1.5%;
+  background-color: transparent;
+  perspective: 1000px;
+}
+
+.flip-box-inner {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-control .flip-box-inner {
+  transform: rotateX(180deg);
+}
+
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-box-back {
+  transform: rotateX(180deg);
+  margin-top: -4px;
 }
 
 .filled {
@@ -165,6 +196,7 @@
   height: 100vh;
   width: 100vw;
   background-color: #02020218;
+  z-index: 1;
 }
 
 .window {
@@ -179,7 +211,7 @@
   justify-content: start;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  z-index: 1;
+  z-index: 2;
   border-radius: 6px;
   overflow: auto;
   padding: 2.5%

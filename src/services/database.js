@@ -2,12 +2,12 @@ import {auth, db} from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
 import { paintRow } from "../services/gameUtility";
 
-let emptyBoard =  [[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]];
+let emptyBoard =  [[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]];
 
 export const addData = async (history={}) => {
     try {
@@ -47,12 +47,12 @@ export const updateDataBaseBoard = async (board) => {
 export const getBoard = async (dailyWord) => {
     try {
         if (auth.currentUser === null) {
-            return ([[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
-                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]]);
+            return ([[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
+                    ,[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]]);
         }
         const docRef = doc(db, "users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
@@ -92,6 +92,7 @@ const StringToBoard = (stringArray, dailyWord) => {
     for (let i = 0; i < stringArray.length; i++) {
         for (let j = 0; j < stringArray[i].length; j++) {
             board[i][j][0] = stringArray[i][j];
+            board[i][j][2] = true;
         }
         board[i] = paintRow(board[i], dailyWord);
     }
