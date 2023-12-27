@@ -3,7 +3,7 @@ import Board from "./Board";
 import Keyboard from "./Keyboard";
 import Window from "./Window";
 import { getBoard, updateDataBaseBoard } from "../services/database";
-import { getDailyWord, paintRow } from "../services/gameUtility";
+import {paintRow, paintKeyBoard} from "../services/gameUtility";
 import { auth } from "../firebase";
 
 function Display() {
@@ -41,6 +41,12 @@ function Display() {
     });
   }
 
+  const updateKeyBoard = () => {
+    getBoard(dailyWord).then((board) => {
+      setKeyBordState(paintKeyBoard(board));
+    });
+  }
+
   useEffect(() => {
     fetch(englishWordsFile)
       .then((r) => r.text())
@@ -61,6 +67,7 @@ function Display() {
         updateBoard(word);
         auth.onIdTokenChanged(() => {
           updateBoard(word);
+          updateKeyBoard();
         });
       });
       
@@ -70,8 +77,6 @@ function Display() {
   const handleKeyPress = (key) => {
     if (gameState === "playing") {
       let newBoardState = boardState;
-      let newKeyBoardState = keyBoardState;
-      let coppyWord = dailyWord;
       let guess = "";
       for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
         guess = guess + boardState[currentBox[0]][i][0];
@@ -81,31 +86,12 @@ function Display() {
         if (!englishWords.includes(guess.toLowerCase())) {
           return;
         }
+
         if (currentBox[0] <= 5 && currentBox[1]-1 === 4) {
           setCurrentBox([currentBox[0] + 1, 0]);
-          
-          for (let i = 0; i < dailyWord.length; i++) {
-            let char = boardState[currentBox[0]][i][0];
-            // correct letter and place 
-            if (char === dailyWord[i]) {
-              newBoardState[currentBox[0]][i][1] = "correct";
-              newKeyBoardState[char] = "correct";
-              coppyWord = coppyWord.replace(char, "");
-            }
-            else if (coppyWord.indexOf(char) >= 0) {
-              newBoardState[currentBox[0]][i][1] = "missed";
-              if (newKeyBoardState[char] === "") {
-                newKeyBoardState[char] = "missed";
-              }
-            }
-            else {
-              newBoardState[currentBox[0]][i][1] = "wrong";
-              if (newKeyBoardState[char] === "") {
-                newKeyBoardState[char] = "wrong";
-              }
-            }
-            setKeyBordState(newKeyBoardState);
-          }
+          newBoardState[currentBox[0]] = paintRow(boardState[currentBox[0]], dailyWord);
+          setBordState(newBoardState);
+          setKeyBordState(paintKeyBoard(newBoardState));
 
           if (dailyWord === guess) {
             setGameState("win");
