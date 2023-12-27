@@ -1,7 +1,8 @@
 import {auth, db} from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { paintRow } from "../services/gameUtility";
 
-const emptyBoard =  [[["", ""],["", ""],["", ""],["", ""],["", ""]]
+let emptyBoard =  [[["", ""],["", ""],["", ""],["", ""],["", ""]]
                     ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
                     ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
                     ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
@@ -43,9 +44,16 @@ export const setBoard = async (board) => {
     }
 }
 
-export const getBoard = async () => {
+export const getBoard = async (dailyWord) => {
     try {
-        if (!auth.currentUser) return emptyBoard;
+        if (auth.currentUser === null) {
+            return ([[["", ""],["", ""],["", ""],["", ""],["", ""]]
+                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
+                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
+                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
+                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]
+                    ,[["", ""],["", ""],["", ""],["", ""],["", ""]]]);
+        }
         const docRef = doc(db, "users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -53,12 +61,12 @@ export const getBoard = async () => {
             const todaysDate = date.getDate().toString()+"."+(date.getMonth()+1).toString()+"."+date.getFullYear().toString();
             const data = docSnap.data();
             if (data.history && data.history[todaysDate]) {
-                return StringToBoard(data.history[todaysDate]);
+                return StringToBoard(data.history[todaysDate], dailyWord);
             } else {
-                return emptyBoard;
+                return emptyBoard.concat();
             }
         } else {
-            return emptyBoard;
+            return emptyBoard.concat();
         }
     } catch (e) {
         console.error("Error adding document: ", e);
@@ -76,12 +84,13 @@ const BoardToSring = (board) => {
     }
 }
 
-const StringToBoard = (stringArray) => {
+const StringToBoard = (stringArray, dailyWord) => {
     let board = emptyBoard;
     for (let i = 0; i < stringArray.length; i++) {
         for (let j = 0; j < stringArray[i].length; j++) {
             board[i][j][0] = stringArray[i][j];
         }
+        board[i] = paintRow(board[i], dailyWord);
     }
     return board;
 }

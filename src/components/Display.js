@@ -3,6 +3,8 @@ import Board from "./Board";
 import Keyboard from "./Keyboard";
 import Window from "./Window";
 import { getBoard, setBoard } from "../services/database";
+import { getDailyWord, paintRow } from "../services/gameUtility";
+import { auth } from "../firebase";
 
 function Display() {
   var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
@@ -27,24 +29,42 @@ function Display() {
   const date = new Date();
   const seed = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
 
-  useEffect(() => {
-    getBoard().then((board) => {
-      setBordState(board);
+  const updateBoard = (word) => {
+    getBoard(word).then((board) => {
+      setBordState(board.concat());
+      for (let i = 0; i < board.length; i++) {
+        if (board[i][0][0] === "") {
+          setCurrentBox([i,0]);
+          break;
+        }
+      }
     });
+  }
+
+  useEffect(() => {
     fetch(englishWordsFile)
       .then((r) => r.text())
       .then((text) => {
         setEnglishWords(text.split("\n"));
       });
       fetch(possibleWordsFile)
-        .then((r) => r.text())
-        .then((text) => {
-          let words = text.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
-          const seedrandom = require('seedrandom');
-          const generator = seedrandom(seed);
-          const randomNumber = generator();
-          setDailyWord(words[Math.floor(randomNumber * words.length)].toUpperCase());
+      .then((r) => r.text())
+      .then((text) => {
+        let words = text.split(/(\s+)/).filter( function(e) { return e.trim().length > 0; } );
+        const seedrandom = require('seedrandom');
+        const generator = seedrandom(seed);
+        const randomNumber = generator();
+        let word = words[Math.floor(randomNumber * words.length)].toUpperCase();
+        setDailyWord(word);
+        return word;
+      }).then((word) => {
+        updateBoard(word);
+        auth.onIdTokenChanged(() => {
+          updateBoard(word);
         });
+      });
+      
+    
   }, []);
 
   const handleKeyPress = (key) => {
@@ -56,7 +76,7 @@ function Display() {
       for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
         guess = guess + boardState[currentBox[0]][i][0];
       }
-      console.log(dailyWord);
+      console.log("daily word is "+dailyWord);
       if (key === "ENTER") {
         if (!englishWords.includes(guess.toLowerCase())) {
           return;
