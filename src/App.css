@@ -158,7 +158,7 @@
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.key:hover, .largekey:hover, .screen:hover, .question:hover, .close:hover, .userIcon:hover, .userText:hover{
+.key:hover, .largekey:hover, .screen:hover, .question:hover, .close:hover, .userIcon:hover, .userText:hover, .share {
   cursor: pointer;
 }
 
@@ -201,9 +201,9 @@
 
 .window {
   position: fixed;
-  top: 10vh;
+  top: 5vh;
   left: auto;
-  height: 90vh;
+  height: 84vh;
   width: 35vw;
   display: flex;
   flex-direction: column;
@@ -276,6 +276,33 @@ ul {
   border-radius: 6px;
   font-size: large;
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.share {
+  width: 5%;
+  margin-left: 70%;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4%;
+}
+
+.statistics {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric {
+  margin: 2% 6% 2% 6%;
+}
+
+.big-number {
+  font-size: 5vw;
 }
 
 @media screen and (max-width: 710px) {

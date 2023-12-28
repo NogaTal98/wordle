@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import Keyboard from "./Keyboard";
-import Window from "./Window";
+import Window, { SignInWindow } from "./Window";
 import { getBoard, updateDataBaseBoard } from "../services/database";
 import {paintRow, paintKeyBoard} from "../services/gameUtility";
 import { auth } from "../firebase";
+import share from "../resources/share.png";
+import Statistics from "./Statistics";
 
 function Display() {
   var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
@@ -24,7 +26,9 @@ function Display() {
 
   const [dailyWord, setDailyWord] = useState("");
 
-  const [windowState, setWindowState] = useState(false);
+  const [EndGameWindowState, setEndGameWindowState] = useState(false);
+
+  const [LogInWindowState, setLogInWindowState] = useState(false);
 
   const date = new Date();
   const seed = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
@@ -90,36 +94,41 @@ function Display() {
       console.log("daily word is "+dailyWord);
       
       if (key === "ENTER") {
-        if (!englishWords.includes(guess.toLowerCase())) {
+        if (auth.currentUser) {
+          if (!englishWords.includes(guess.toLowerCase())) {
+            return;
+          }
+
+          if (currentBox[0] <= 5 && currentBox[1]-1 === 4) {
+            setCurrentBox([currentBox[0] + 1, 0]);
+            let row = paintRow(boardState[currentBox[0]], dailyWord);
+
+            // animation
+            for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
+              newBoardState[currentBox[0]][i] = row[i];
+              newBoardState[currentBox[0]][i][2] = true;
+              setBordState(newBoardState)
+              forceUpdate();
+              await timeout(300);
+            }
+            setKeyBordState(paintKeyBoard(newBoardState));
+
+            if (dailyWord === guess) {
+              setGameState("win");
+              setEndGameWindowState(true);
+            }
+            else if (currentBox[0] === 5 && dailyWord !== guess) {
+              setGameState("lose");
+              setEndGameWindowState(true);
+            }
+          }
+          console.log("new board " + newBoardState);
+          updateDataBaseBoard(newBoardState, guess === dailyWord , currentBox[0]+1);
           return;
         }
-
-        if (currentBox[0] <= 5 && currentBox[1]-1 === 4) {
-          setCurrentBox([currentBox[0] + 1, 0]);
-          let row = paintRow(boardState[currentBox[0]], dailyWord);
-
-          // animation
-          for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
-            newBoardState[currentBox[0]][i] = row[i];
-            newBoardState[currentBox[0]][i][2] = true;
-            setBordState(newBoardState)
-            forceUpdate();
-            await timeout(300);
-          }
-          setKeyBordState(paintKeyBoard(newBoardState));
-
-          if (dailyWord === guess) {
-            setGameState("win");
-            setWindowState(true);
-          }
-          else if (currentBox[0] === 5 && dailyWord !== guess) {
-            setGameState("lose");
-            setWindowState(true);
-          }
+        else {
+          setLogInWindowState(true);
         }
-        console.log("new board " + newBoardState);
-        updateDataBaseBoard(newBoardState);
-        return;
       }
 
       if (key === "DELETE")  {
@@ -143,17 +152,40 @@ function Display() {
   }
 
   const handleClose = () => {
-    setWindowState(false);
+    setEndGameWindowState(false);
+    setLogInWindowState(false);
+  }
+
+  const createEmojiBoard = () => {
+    let emojiBoard = "";
+    for (let i = 0; i < boardState.length; i++) {
+      for (let j = 0; j < boardState[0].length; j++) {
+        if (boardState[i][j][1] === "correct") {
+          emojiBoard = emojiBoard + "🟩";
+        }
+        else if (boardState[i][j][1] === "missed") {
+          emojiBoard = emojiBoard + "🟨";
+        }
+        else {
+          emojiBoard = emojiBoard + "⬜";
+        }
+      }
+      emojiBoard = emojiBoard + ('\n');
+    }
+    return emojiBoard;
   }
 
   return (
     <div className="display">
       <Board state={boardState}/>
       <Keyboard states={keyBoardState} pressKey={handleKeyPress}/>
-      <Window active={windowState} handleClose={handleClose}>
+      <Window active={EndGameWindowState} handleClose={handleClose}>
         <div className="headline">{gameState === "win" ? "You Win" : "You Lose"}</div>
         <div className="subHeadline">The word was {dailyWord}.</div>
+        <Statistics/>
+        <img src={share} alt="Share" className="share" onClick={() => {navigator.clipboard.writeText(createEmojiBoard()); alert("Game copied to clipboard! \nShare it with your friends!")}}/>
       </Window>
+      <SignInWindow active={LogInWindowState} handleClose={handleClose}/>
     </div>
   );
 }

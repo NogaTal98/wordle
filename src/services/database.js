@@ -1,5 +1,5 @@
 import {auth, db} from "../firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore"; 
 import { paintRow } from "../services/gameUtility";
 
 let emptyBoard =  [[["", "", false],["", "", false],["", "", false],["", "", false],["", "", false]]
@@ -14,7 +14,9 @@ export const addData = async (history={}) => {
         await setDoc(doc(db, "users", auth.currentUser.uid),{
             name: auth.currentUser.displayName,
             email: auth.currentUser.email,
-            history: history
+            history: history,
+            winnings: 0,
+            guess: {1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
         });
         console.log("Document written with ID: ", auth.currentUser.uid);
       } catch (e) {
@@ -22,7 +24,54 @@ export const addData = async (history={}) => {
       }
 }
 
-export const updateDataBaseBoard = async (board) => {
+export const getWinningPercentage = async () => {
+    try {
+        if (!auth.currentUser) return;
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (!data.winnings) {
+                return 0;
+            }
+            let winnings = data.winnings;
+            return (winnings/Object.keys(data.history).length);
+        }
+    } catch (e) {
+        console.error("Error calculating precentage: ", e);
+    }
+}
+
+export const getGuessNumbers = async () => {
+    try {
+        if (!auth.currentUser) return;
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return data.guess;
+        }
+    } catch (e) {
+        console.error("Error getting correct guess times: ", e);
+    }
+}
+
+export const getTotalGames = async () => {
+    try {
+        if (!auth.currentUser) return;
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return data.history ? Object.keys(data.history).length : 0;
+        }
+    } catch (e) {
+        console.error("Error getting correct guess times: ", e);
+    }
+}
+
+
+export const updateDataBaseBoard = async (board, didWon, guessNum) => {
     try {
         if (!auth.currentUser) return;
         const date = new Date();
@@ -35,7 +84,19 @@ export const updateDataBaseBoard = async (board) => {
                 data.history = {};
             }
             data.history[todaysDate] = BoardToString(board);
-            await setDoc(docRef, data);
+
+            if (didWon) {
+                if (!data.winnings) {
+                    data.winnings = 0;
+                }
+                data.winnings += 1;
+            }
+            if (!data.guess) {
+                data.guess = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0};
+            }
+            data.guess[guessNum] += 1;
+
+            await updateDoc(docRef, data);
         } else {
             await addData({[todaysDate]: BoardToString(board)});
         }
