@@ -289,6 +289,22 @@ ul {
   padding-top: 4%;
 }
 
+.statistics {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric {
+  margin: 2% 6% 2% 6%;
+}
+
+.big-number {
+  font-size: 5vw;
+}
+
 @media screen and (max-width: 710px) {
   .keyboard {
     height: 150px;

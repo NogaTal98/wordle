@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getWinningPercentage, getGuessNumbers } from "../services/database";
+import { getWinningPercentage, getGuessNumbers, getTotalGames } from "../services/database";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -38,6 +38,7 @@ const labels = ['1', '2', '3', '4', '5', '6'];
 function Statistics({}) {
     const [winningPercentage, setWinningPercentage] = useState(0);
     const [guessNumbers, setGuessNumbers] = useState({});
+    const [totalGames, setTotalGames] = useState(0);
 
     useEffect(() => {
         getWinningPercentage().then((percentage) => {
@@ -46,11 +47,31 @@ function Statistics({}) {
         getGuessNumbers().then((numbers) => {
             setGuessNumbers(numbers);
         });
+        getTotalGames().then((number) => {
+            setTotalGames(number);
+        });
     }, []);
 
     return (
         <div >
-            your win-rate: {winningPercentage*100}%!
+            <div className="statistics">
+                <div className="metric">
+                    <div className="big-number">
+                        {totalGames}
+                    </div>
+                    <div className="small-text">
+                        Played
+                    </div>
+                </div>
+                <div className="metric">
+                    <div className="big-number">
+                        {winningPercentage*100}
+                    </div>
+                    <div className="small-text">
+                        Win %
+                    </div>
+                </div>
+            </div>
             <br/>
             {winningPercentage === 0 ? "You haven't played any games yet!" : 
             <Bar options={options} data={{

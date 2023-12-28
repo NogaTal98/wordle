@@ -24,7 +24,7 @@ export const addData = async (history={}) => {
       }
 }
 
-export const getWinningPercentage = async (guess) => {
+export const getWinningPercentage = async () => {
     try {
         if (!auth.currentUser) return;
         const docRef = doc(db, "users", auth.currentUser.uid);
@@ -42,7 +42,7 @@ export const getWinningPercentage = async (guess) => {
     }
 }
 
-export const getGuessNumbers = async (guess) => {
+export const getGuessNumbers = async () => {
     try {
         if (!auth.currentUser) return;
         const docRef = doc(db, "users", auth.currentUser.uid);
@@ -50,6 +50,20 @@ export const getGuessNumbers = async (guess) => {
         if (docSnap.exists()) {
             const data = docSnap.data();
             return data.guess;
+        }
+    } catch (e) {
+        console.error("Error getting correct guess times: ", e);
+    }
+}
+
+export const getTotalGames = async () => {
+    try {
+        if (!auth.currentUser) return;
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            return data.history ? Object.keys(data.history).length : 0;
         }
     } catch (e) {
         console.error("Error getting correct guess times: ", e);
