@@ -52,6 +52,7 @@ function Statistics({}) {
         <div >
             your win-rate: {winningPercentage*100}%!
             <br/>
+            {winningPercentage === 0 ? "You haven't played any games yet!" : 
             <Bar options={options} data={{
                                     labels,
                                     datasets: [
@@ -62,8 +63,8 @@ function Statistics({}) {
                                         }
                                     ],
                                     }}
-            />
-        </div>
+            />}
+        </div> 
     );
   }
   export default Statistics;
