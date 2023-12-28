@@ -158,7 +158,7 @@
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.key:hover, .largekey:hover, .screen:hover, .question:hover, .close:hover, .userIcon:hover, .userText:hover{
+.key:hover, .largekey:hover, .screen:hover, .question:hover, .close:hover, .userIcon:hover, .userText:hover, .share {
   cursor: pointer;
 }
 
@@ -276,6 +276,15 @@ ul {
   border-radius: 6px;
   font-size: large;
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.share {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4%;
 }
 
 @media screen and (max-width: 710px) {
