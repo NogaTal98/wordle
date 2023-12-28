@@ -1,5 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { getWinningPercentage, getGuessNumbers } from "../services/database";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title
+  } from 'chart.js';
+  import { Bar } from 'react-chartjs-2';
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title
+  );
+
+  export const options = {
+    indexAxis: 'y',
+    elements: {
+      bar: {
+        borderWidth: 0,
+      },
+    },
+    responsive: true,
+    plugins: {
+        title: {
+            display: true,
+            text: 'GUESS DISTRIBUTION',
+        },
+    },
+  };
+
+  
+const labels = ['1', '2', '3', '4', '5', '6'];
 
 function Statistics({}) {
     const [winningPercentage, setWinningPercentage] = useState(0);
@@ -18,13 +52,17 @@ function Statistics({}) {
         <div >
             your win-rate: {winningPercentage*100}%!
             <br/>
-            your guess numbers:<br/>
-            You guessed the wordle in one guess {guessNumbers["1"]} times.<br/>
-            You guessed the wordle in two guesses {guessNumbers["2"]} times.<br/>
-            You guessed the wordle in three guesses {guessNumbers["3"]} times.<br/>
-            You guessed the wordle in four guesses {guessNumbers["4"]} times.<br/>
-            You guessed the wordle in five guesses {guessNumbers["5"]} times.<br/>
-            You guessed the wordle in six guesses {guessNumbers["6"]} times.
+            <Bar options={options} data={{
+                                    labels,
+                                    datasets: [
+                                        {
+                                        label: 'correct guesses',
+                                        data: [guessNumbers["1"], guessNumbers["2"], guessNumbers["3"], guessNumbers["4"], guessNumbers["5"], guessNumbers["6"]],
+                                        backgroundColor: '#787c7e',
+                                        }
+                                    ],
+                                    }}
+            />
         </div>
     );
   }

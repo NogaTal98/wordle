@@ -201,9 +201,9 @@
 
 .window {
   position: fixed;
-  top: 10vh;
+  top: 5vh;
   left: auto;
-  height: 90vh;
+  height: 84vh;
   width: 35vw;
   display: flex;
   flex-direction: column;
@@ -279,7 +279,9 @@ ul {
 }
 
 .share {
-  width: 50%;
+  width: 5%;
+  margin-left: 70%;
+  margin-right: auto;
   display: flex;
   flex-direction: row;
   align-items: center;

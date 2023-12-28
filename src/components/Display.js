@@ -6,6 +6,7 @@ import { getBoard, updateDataBaseBoard } from "../services/database";
 import {paintRow, paintKeyBoard} from "../services/gameUtility";
 import { auth } from "../firebase";
 import share from "../resources/share.png";
+import Statistics from "./Statistics";
 
 function Display() {
   var englishWordsFile = require(process.env.PUBLIC_URL + '../resources/EnglishWords.txt');
@@ -180,9 +181,9 @@ function Display() {
       <Keyboard states={keyBoardState} pressKey={handleKeyPress}/>
       <Window active={EndGameWindowState} handleClose={handleClose}>
         <div className="headline">{gameState === "win" ? "You Win" : "You Lose"}</div>
-        <img src={share} alt="Share" className="share" onClick={() => {navigator.clipboard.writeText(createEmojiBoard())}}/>
         <div className="subHeadline">The word was {dailyWord}.</div>
-
+        <Statistics/>
+        <img src={share} alt="Share" className="share" onClick={() => {navigator.clipboard.writeText(createEmojiBoard()); alert("Game copied to clipboard! \nShare it with your friends!")}}/>
       </Window>
       <SignInWindow active={LogInWindowState} handleClose={handleClose}/>
     </div>
