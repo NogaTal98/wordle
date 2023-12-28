@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getWinningPercentage, getGuessNumbers, getTotalGames } from "../services/database";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db, auth } from "../firebase";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -35,20 +36,19 @@ import {
   
 const labels = ['1', '2', '3', '4', '5', '6'];
 
-function Statistics({}) {
+function Statistics() {
     const [winningPercentage, setWinningPercentage] = useState(0);
     const [guessNumbers, setGuessNumbers] = useState({});
     const [totalGames, setTotalGames] = useState(0);
 
     useEffect(() => {
-        getWinningPercentage().then((percentage) => {
-            setWinningPercentage(percentage);
-        });
-        getGuessNumbers().then((numbers) => {
-            setGuessNumbers(numbers);
-        });
-        getTotalGames().then((number) => {
-            setTotalGames(number);
+        onSnapshot(doc(db, "users", auth.currentUser.uid), (doc) => {
+            const data = doc.data();
+            let winnings = data.winnings;
+            if (Object.keys(data.history).length === 0) winnings = null;
+            setWinningPercentage(winnings ? winnings/Object.keys(data.history).length : 0);
+            setGuessNumbers(data.guess ? data.guess : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0});
+            setTotalGames(data.history ? Object.keys(data.history).length : 0);
         });
     }, []);
 

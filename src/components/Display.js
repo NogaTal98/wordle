@@ -49,7 +49,7 @@ function Display() {
           break;
         }
       }
-      if (concatGuess(board[i-1]) === dailyWord) {
+      if (i > 0 && concatGuess(board[i-1]) === dailyWord) {
         setGameState("win");
       }
       else if (i === 5 && concatGuess(board[i]) !== dailyWord) {
@@ -87,8 +87,6 @@ function Display() {
           updateKeyBoard();
         });
       });
-      
-    
   }, []);
 
   const handleKeyPress = async (key) => {
@@ -162,22 +160,24 @@ function Display() {
   }
 
   const createEmojiBoard = () => {
-    let emojiBoard = "Wordle-noga:\n\n";
+    let emojiBoard = auth.currentUser.displayName + "'s today's game \n\n";
     for (let i = 0; i < boardState.length; i++) {
       for (let j = 0; j < boardState[0].length; j++) {
-        if (boardState[i][j][1] === "correct") {
-          emojiBoard = emojiBoard + "🟩";
+        if (boardState[i][j][0] !== "") {
+          if (boardState[i][j][1] === "correct") {
+            emojiBoard = emojiBoard + "🟩";
+          }
+          else if (boardState[i][j][1] === "missed") {
+            emojiBoard = emojiBoard + "🟨";
+          }
+          else {
+            emojiBoard = emojiBoard + "⬜";
+          }
         }
-        else if (boardState[i][j][1] === "missed") {
-          emojiBoard = emojiBoard + "🟨";
-        }
-        else {
-          emojiBoard = emojiBoard + "⬜";
-        }
+        emojiBoard = emojiBoard + ('\n');
       }
-      emojiBoard = emojiBoard + ('\n');
     }
-    emojiBoard = emojiBoard + "\nhttps://wordle-noga.web.app/";
+    emojiBoard = emojiBoard + "\nTry it yourself!\nhttps://wordle-noga.web.app/";
     return emojiBoard;
   }
 
