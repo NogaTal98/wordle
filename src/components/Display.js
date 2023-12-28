@@ -157,7 +157,7 @@ function Display() {
   }
 
   const createEmojiBoard = () => {
-    let emojiBoard = "";
+    let emojiBoard = "Wordle-noga:\n\n";
     for (let i = 0; i < boardState.length; i++) {
       for (let j = 0; j < boardState[0].length; j++) {
         if (boardState[i][j][1] === "correct") {
@@ -172,6 +172,7 @@ function Display() {
       }
       emojiBoard = emojiBoard + ('\n');
     }
+    emojiBoard = emojiBoard + "\nhttps://wordle-noga.web.app/";
     return emojiBoard;
   }
 
