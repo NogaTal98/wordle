@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import Keyboard from "./Keyboard";
 import Window, { SignInWindow } from "./Window";
-import { getBoard, updateDataBaseBoard, updateStatistics } from "../services/database";
+import { getBoard, updateDataBaseBoard } from "../services/database";
 import {paintRow, paintKeyBoard} from "../services/gameUtility";
 import { auth } from "../firebase";
 import share from "../resources/share.png";
@@ -122,7 +122,7 @@ function Display() {
             }
           }
           console.log("new board " + newBoardState);
-          updateDataBaseBoard(newBoardState, gameState === "win" , currentBox[0]+1);
+          updateDataBaseBoard(newBoardState, guess === dailyWord , currentBox[0]+1);
           return;
         }
         else {
@@ -182,6 +182,7 @@ function Display() {
         <div className="headline">{gameState === "win" ? "You Win" : "You Lose"}</div>
         <img src={share} alt="Share" className="share" onClick={() => {navigator.clipboard.writeText(createEmojiBoard())}}/>
         <div className="subHeadline">The word was {dailyWord}.</div>
+
       </Window>
       <SignInWindow active={LogInWindowState} handleClose={handleClose}/>
     </div>
