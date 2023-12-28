@@ -90,11 +90,13 @@ export const updateDataBaseBoard = async (board, didWon, guessNum) => {
                     data.winnings = 0;
                 }
                 data.winnings += 1;
+
+                if (!data.guess) {
+                    data.guess = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0};
+                }
+                data.guess[guessNum] += 1;
             }
-            if (!data.guess) {
-                data.guess = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0};
-            }
-            data.guess[guessNum] += 1;
+            
 
             await updateDoc(docRef, data);
         } else {
