@@ -32,3 +32,14 @@ export const paintKeyBoard = (boardState) => {
     }
     return keyBoardState;
 }
+
+export const concatGuess = (row) => {
+    let guess = "";
+    if (row === undefined) {
+        return guess;
+    }
+    for (let i = 0; i < row.length; i++) {
+        guess = guess + row[i][0];
+    }
+    return guess;
+}

@@ -3,7 +3,7 @@ import Board from "./Board";
 import Keyboard from "./Keyboard";
 import Window, { SignInWindow } from "./Window";
 import { getBoard, updateDataBaseBoard } from "../services/database";
-import {paintRow, paintKeyBoard} from "../services/gameUtility";
+import {paintRow, paintKeyBoard, concatGuess} from "../services/gameUtility";
 import { auth } from "../firebase";
 import share from "../resources/share.png";
 import Statistics from "./Statistics";
@@ -42,11 +42,18 @@ function Display() {
   const updateBoard = (word) => {
     getBoard(word).then((board) => {
       setBordState(board.concat());
-      for (let i = 0; i < board.length; i++) {
+      let i = 0;
+      for (i; i < 6; i++) {
         if (board[i][0][0] === "") {
           setCurrentBox([i,0]);
           break;
         }
+      }
+      if (concatGuess(board[i-1]) === dailyWord) {
+        setGameState("win");
+      }
+      else if (i === 5 && concatGuess(board[i]) !== dailyWord) {
+        setGameState("lose");
       }
     });
   }
@@ -87,10 +94,8 @@ function Display() {
   const handleKeyPress = async (key) => {
     if (gameState === "playing") {
       let newBoardState = boardState;
-      let guess = "";
-      for (let i = 0; i < newBoardState[currentBox[0]].length; i++) {
-        guess = guess + boardState[currentBox[0]][i][0];
-      }
+      let guess = concatGuess(newBoardState[currentBox[0]]);
+
       console.log("daily word is "+dailyWord);
       
       if (key === "ENTER") {

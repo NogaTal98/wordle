@@ -44,7 +44,7 @@ export const getWinningPercentage = async () => {
 
 export const getGuessNumbers = async () => {
     try {
-        if (!auth.currentUser) return;
+        if (!auth.currentUser) return {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0};
         const docRef = doc(db, "users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
