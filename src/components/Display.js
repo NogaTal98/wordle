@@ -174,8 +174,8 @@ function Display() {
             emojiBoard = emojiBoard + "⬜";
           }
         }
-        emojiBoard = emojiBoard + ('\n');
       }
+      emojiBoard = emojiBoard + ('\n');
     }
     emojiBoard = emojiBoard + "\nTry it yourself!\nhttps://wordle-noga.web.app/";
     return emojiBoard;
