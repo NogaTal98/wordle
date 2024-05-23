@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Replace the following with your app's Firebase project configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyBeu4rH8xsnAMCqsVmNNzEYncaIEsw9rYE",
-    authDomain: "wordle-noga.firebaseapp.com",
-    projectId: "wordle-noga",
-    storageBucket: "wordle-noga.appspot.com",
-    messagingSenderId: "52540520797",
-    appId: "1:52540520797:web:b914df311ff1b6944690b4",
-    measurementId: "G-BSXBQMV8FD"
+    apiKey: '${process.env.REACT_APP_APIKEY}',
+    authDomain: '${process.env.REACT_APP_AUTHDOMAIN}',
+    projectId: '${process.env.REACT_APP_PROJECTID}',
+    storageBucket: '${process.env.REACT_APP_STORAGEBUCKET}',
+    messagingSenderId: '${process.env.REACT_APP_MESSAGINGSUNDERID}',
+    appId: '${process.env.REACT_APP_APPID}',
+    measurementId: '${process.env.REACT_APP_MEASURMENTID}'
 };
 
 const app = initializeApp(firebaseConfig);
