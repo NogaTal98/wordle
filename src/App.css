@@ -209,12 +209,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: start;
+  text-align: center;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 2;
   border-radius: 6px;
-  overflow: auto;
+  /* overflow: auto; */
   padding: 2.5%
+}
+
+.windowChild {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  text-align: center;
 }
 
 .close {
@@ -302,7 +312,8 @@ ul {
 }
 
 .big-number {
-  font-size: 5vw;
+  font-size: 6vh;
+  width: 100%;
 }
 
 @media screen and (max-width: 710px) {
@@ -323,6 +334,10 @@ ul {
   .window {
     width: 90vw;
   }
+}
+
+.resultDisplay {
+  width: 80%;
 }
 
 @font-face {

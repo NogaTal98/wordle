@@ -53,7 +53,7 @@ function Statistics() {
     }, []);
 
     return (
-        <div >
+        <div>
             <div className="statistics">
                 <div className="metric">
                     <div className="big-number">
@@ -65,7 +65,7 @@ function Statistics() {
                 </div>
                 <div className="metric">
                     <div className="big-number">
-                        {winningPercentage*100}
+                        {winningPercentage*100 | 0}
                     </div>
                     <div className="small-text">
                         Win %

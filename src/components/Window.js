@@ -17,7 +17,7 @@ function Window({children, active, handleClose}) {
           <img src={close} alt="Close" className="close" onClick={handleClose}/>
           {Children.map(children, child => {
             return (
-              <div>
+              <div className='windowChild'>
                 {child}
               </div>
             );
@@ -96,7 +96,7 @@ export function SignInWindow({active, handleClose}) {
 
   return (<Window active={active} handleClose={handleClose}>
   {auth.currentUser ? 
-    <div>
+    <div className='resultDisplay'>
       <div className='headline'>Welcome {auth.currentUser.displayName} </div> 
       <Statistics/>
       <button onClick={() => auth.signOut()}>Sign Out</button>
